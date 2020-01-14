@@ -1,0 +1,27 @@
+body {
+  background-color: #eff8fe;
+}
+.wrapper {
+  max-width: 500px;
+  margin: 0 auto;
+}
+.navigation {
+  margin: 50px 0;
+  display: flex;
+  justify-content: space-around;
+}
+.person {
+  padding: 5px 15px;
+  box-shadow: 0 0 15px 0 rgba(0, 0, 0, 0.1);
+  background-color: #fff;
+  margin-bottom: 20px;
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.btn {
+  padding: 5px 15px;
+  border-radius: 2.5px;
+  cursor: pointer;
+}

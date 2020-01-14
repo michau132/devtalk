@@ -1,0 +1,15 @@
+{
+  "presets": [
+    "@babel/env",
+    "@babel/typescript",
+    "@babel/react"
+  ],
+  "plugins": [
+    "@babel/plugin-syntax-dynamic-import",
+    "@babel/proposal-class-properties",
+    "@babel/proposal-object-rest-spread",
+    "@babel/plugin-proposal-export-namespace-from",
+    "@babel/plugin-proposal-throw-expressions",
+    "react-hot-loader/babel"
+  ]
+}
