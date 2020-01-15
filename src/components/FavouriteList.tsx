@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { IPerson } from '../models/person';
+import Person from './Person';
 interface IPropsFavouriteList {
   favourite: IPerson[];
   removeFavourite: ((person: IPerson) => void);
@@ -12,13 +13,7 @@ export default class FavouriteList extends Component<IPropsFavouriteList> {
         <h2 className="favourite-list__title">Favourite people</h2>
         {
           this.props.favourite.map((person) => (
-            <div className="person" key={person.url}>
-              <div>
-                <h4 className="person__name">Name: {person.name}</h4>
-                <p className="person__gender">Gender: {person.gender}</p>
-              </div>
-              <button className="btn" onClick={() => this.props.removeFavourite(person)}>Remove</button>
-            </div>
+            <Person person={person} onClick={this.props.removeFavourite} key={person.url} />
           ))
         }
       </div>

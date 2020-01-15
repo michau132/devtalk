@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import Loader from './Loader';
 import { IPerson } from '../models/person';
+import Person from './Person';
 interface IListProps {
   people: IPerson[];
   addFavourite: ((person: IPerson) => void);
@@ -17,13 +18,7 @@ export default class FavouriteList extends Component<IListProps> {
           <h2 className="people-list__title">People list:</h2>
           {
             this.props.people.map((person) => (
-              <div className="person" key={person.url}>
-                <div>
-                  <h4 className="person__name">Name: {person.name}</h4>
-                  <p className="person__gender">Gender: {person.gender}</p>
-                </div>
-                <button className="btn" onClick={() => this.props.addFavourite(person)}>Add</button>
-              </div>
+              <Person person={person} onClick={this.props.addFavourite} key={person.url} />
             ))
           }
           {this.props.isLoading && <Loader color="blue" />}
