@@ -4,6 +4,7 @@ import Person from './Person';
 import { connect } from 'react-redux';
 
 import { removeFavourite } from '../actions';
+import { IState } from '../models/state';
 
 
 interface IPropsFavouriteList {
@@ -45,7 +46,7 @@ class FavouriteList extends Component<IPropsFavouriteList, IStateFavouriteList> 
   }
 }
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = (state: IState) => ({
   favourite: state.favourite
 });
 

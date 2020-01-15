@@ -4,7 +4,6 @@ import { BrowserRouter, Link, Route, Switch } from 'react-router-dom';
 import PeopleList from './PeopleList';
 import FavouriteList from './FavouriteList';
 
-import { IPerson } from '../models/person';
 import { connect } from 'react-redux';
 import { loadPeople } from '../actions';
 import { IState } from '../models/state';
