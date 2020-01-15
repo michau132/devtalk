@@ -5,13 +5,33 @@ interface IPropsFavouriteList {
   removeFavourite: ((person: IPerson) => void);
 }
 
-export default class FavouriteList extends Component<IPropsFavouriteList> {
+interface IStateFavouriteList {
+  input: string;
+  filteredPeople: IPerson[];
+}
+
+export default class FavouriteList extends Component<IPropsFavouriteList, IStateFavouriteList> {
+  constructor(props: IPropsFavouriteList) {
+    super(props);
+    this.state = {
+      input: '',
+      filteredPeople: props.favourite
+    };
+  }
+
+  onChange(val: string) {
+    this.setState({
+      input: val,
+      filteredPeople: this.props.favourite.filter(el => el.name.includes(val))
+    });
+  }
   render() {
     return (
       <div className="favourite-list">
         <h2 className="favourite-list__title">Favourite people</h2>
+        <input type="text" value={this.state.input} onChange={e => this.onChange(e.target.value)} />
         {
-          this.props.favourite.map((person) => (
+          this.state.filteredPeople.map((person) => (
             <div className="person" key={person.url}>
               <div>
                 <h4 className="person__name">Name: {person.name}</h4>

@@ -32,7 +32,7 @@ class App extends Component<{}, IAppState> {
       reRender: false
     };
     this.scrollHandler = this.scrollHandler.bind(this);
-    //this.addFavourite = this.addFavourite.bind(this);
+    this.addFavourite = this.addFavourite.bind(this);
   }
   componentDidMount() {
     this.loadPeople();
@@ -78,8 +78,8 @@ class App extends Component<{}, IAppState> {
   }
   addFavourite(person: IPerson) {
     console.log(person);
-    this.state.favourite.push(person);
-    //this.setState(prevstate => ({ favourite: [...prevstate.favourite, person] }));
+    //this.state.favourite.push(person);
+    this.setState(prevstate => ({ favourite: [...prevstate.favourite, person] }));
   }
   removeFavourite(person: IPerson) {
     const favourite = this.state.favourite.filter(el => el.name !== person.name);
