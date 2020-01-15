@@ -1,31 +1,33 @@
-import React, { Component } from 'react';
+import React, { Component, FC } from 'react';
 import Loader from './Loader';
-import { IPerson } from '../models/person';
+import { MyConsumer } from '../Provider';
 import Person from './Person';
-interface IListProps {
-  people: IPerson[];
-  addFavourite: ((person: IPerson) => void);
-  isLoading: boolean;
-  hasError: boolean;
-  hasNext: boolean;
-}
 
-export default class FavouriteList extends Component<IListProps> {
-  render() {
-    return (
-      <div>
-        <div className="people-list">
-          <h2 className="people-list__title">People list:</h2>
-          {
-            this.props.people.map((person) => (
-              <Person person={person} onClick={this.props.addFavourite} btnTitle={"Add"} key={person.url} />
-            ))
-          }
-          {this.props.isLoading && <Loader color="blue" />}
-          {this.props.hasError && <div>Can not fetch more data</div>}
-          {!this.props.hasNext && <p>there are no more people</p>}
-        </div>
-      </div>
-    );
-  }
-}
+
+const FavouriteList: FC<{}> = () => {
+
+  return (
+    <MyConsumer>
+      {
+        ({ people, isLoading, hasError, hasNext, addFavourite }) => {
+          return (
+            <div>
+              <div className="people-list">
+                <h2 className="people-list__title">People list:</h2>
+                {people.map((person) => (
+                  <Person person={person} onClick={addFavourite} btnTitle={"Add"} key={person.url} />
+                ))
+                }
+                {isLoading && <Loader color="blue" />}
+                {hasError && <div>Can not fetch more data</div>}
+                {!hasNext && <p>there are no more people</p>}
+              </div>
+            </div>
+          );
+        }
+      }
+    </MyConsumer>
+  );
+};
+
+export default FavouriteList;
