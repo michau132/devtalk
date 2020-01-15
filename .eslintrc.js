@@ -35,7 +35,8 @@ module.exports = {
     "react-hooks/exhaustive-deps": "warn",
     "@typescript-eslint/interface-name-prefix": 0,
     "prefixWithI": "always",
-    "@typescript-eslint/camelcase": 0
+    "@typescript-eslint/camelcase": 0,
+    "@typescript-eslint/no-explicit-any": 0
   },
   settings: {
     react: {

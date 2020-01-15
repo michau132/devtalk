@@ -11,7 +11,8 @@
     "target": "es2018",
     "module": "esNext",
     "strict": true,
-    "jsx": "react"
+    "jsx": "react",
+    "checkJs": false
   },
   "include": [
     "src/**/*"
