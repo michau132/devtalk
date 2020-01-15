@@ -18,7 +18,7 @@ export default class FavouriteList extends Component<IListProps> {
           <h2 className="people-list__title">People list:</h2>
           {
             this.props.people.map((person) => (
-              <Person person={person} onClick={this.props.addFavourite} key={person.url} />
+              <Person person={person} onClick={this.props.addFavourite} btnTitle={"Add"} key={person.url} />
             ))
           }
           {this.props.isLoading && <Loader color="blue" />}

@@ -13,7 +13,7 @@ export default class FavouriteList extends Component<IPropsFavouriteList> {
         <h2 className="favourite-list__title">Favourite people</h2>
         {
           this.props.favourite.map((person) => (
-            <Person person={person} onClick={this.props.removeFavourite} key={person.url} />
+            <Person person={person} onClick={this.props.removeFavourite} btnTitle={"Remove"} key={person.url} />
           ))
         }
       </div>
