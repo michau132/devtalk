@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import { BrowserRouter, Link, Route, Switch } from 'react-router-dom';
 import axios from 'axios';
 
-import Loader from './Loader';
+import PeopleList from './PeopleList';
+import FavouriteList from './FavouriteList';
 
 import { IPerson } from '../models/person';
 import { IResponse } from '../models/response';
@@ -14,6 +15,7 @@ export interface IAppState {
   isLoading: boolean;
   hasError: boolean;
   favourite: IPerson[];
+  reRender: boolean;
 }
 
 
@@ -26,9 +28,11 @@ class App extends Component<{}, IAppState> {
       currentPage: 1,
       isLoading: false,
       hasError: false,
-      favourite: []
+      favourite: [],
+      reRender: false
     };
     this.scrollHandler = this.scrollHandler.bind(this);
+    //this.addFavourite = this.addFavourite.bind(this);
   }
   componentDidMount() {
     this.loadPeople();
@@ -42,13 +46,18 @@ class App extends Component<{}, IAppState> {
       this.loadPeople();
     }
   }
+  reRender(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
+    //getting html node element
+    console.log(e.currentTarget);
+    this.setState({ reRender: !this.state.reRender });
+  }
   loadPeople() {
     const { isLoading, hasNext, currentPage } = this.state;
-    if(!isLoading && hasNext) {
+    if (!isLoading && hasNext) {
       this.setState(({ isLoading: true }), () => {
         axios.get<IResponse>(`api/people/?page=${currentPage}`)
           .then(res => {
-            this.setState(prevstate =>({
+            this.setState(prevstate => ({
               people: [...prevstate.people, ...res.data.results],
               hasNext: !!res.data.next,
               currentPage: prevstate.currentPage + 1,
@@ -65,10 +74,12 @@ class App extends Component<{}, IAppState> {
 
       });
     }
-    
+
   }
   addFavourite(person: IPerson) {
-    this.setState(prevstate => ({ favourite: [...prevstate.favourite, person] }));
+    console.log(person);
+    this.state.favourite.push(person);
+    //this.setState(prevstate => ({ favourite: [...prevstate.favourite, person] }));
   }
   removeFavourite(person: IPerson) {
     const favourite = this.state.favourite.filter(el => el.name !== person.name);
@@ -83,47 +94,29 @@ class App extends Component<{}, IAppState> {
           <nav className="navigation">
             <Link to="/">Home</Link>
             <Link to="/favourite">Favourite heroes</Link>
+            <button className="btn" onClick={(e) => this.reRender(e)}>render</button>
           </nav>
           <Switch>
-            <Route path="/" exact render={() => {
-              return (
-                <div className="people-list">
-                  <h2 className="people-list__title">People list:</h2>
-                  {
-                    this.state.people.map((person) => (
-                      <div className="person" key={person.url}>
-                        <div>
-                          <h4 className="person__name">Name: {person.name}</h4>
-                          <p className="person__gender">Gender: {person.gender}</p>
-                        </div>
-                        <button className="btn" onClick={() => this.addFavourite(person)}>Add</button>
-                      </div>
-                    ))
-                  }
-                  {this.state.isLoading && <Loader color="blue"/>}
-                  {this.state.hasError && <div>Can not fetch more data</div>}
-                  {!this.state.hasNext && <p>there are no more people</p>}
-                </div>
-              );
-            }} />
+            <Route
+              path="/"
+              exact
+              render={(historyProps) => (
+                <PeopleList
+                  {...historyProps}
+                  {...this.state}
+                  // people={this.state.people} 
+                  // isLoading={this.state.isLoading} 
+                  // hasError={this.state.hasError}
+                  // hasNext={this.state.hasNext}
+                  addFavourite={this.addFavourite}
+                />)
+              }
+            />
             <Route path="/favourite" exact render={() => {
               return (
-                <div className="favourite-list">
-                  <h2 className="favourite-list__title">Favourite people</h2>
-                  {
-                    this.state.favourite.map((person) => (
-                      <div className="person" key={person.url}>
-                        <div>
-                          <h4 className="person__name">Name: {person.name}</h4>
-                          <p className="person__gender">Gender: {person.gender}</p>
-                        </div>
-                        <button className="btn" onClick={() => this.removeFavourite(person)}>Remove</button>
-                      </div>
-                    ))
-                  }
-                </div>
+                <FavouriteList favourite={this.state.favourite} removeFavourite={this.removeFavourite} />
               );
-            }}/>
+            }} />
           </Switch>
         </div>
       </BrowserRouter>
